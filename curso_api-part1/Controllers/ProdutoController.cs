@@ -28,18 +28,42 @@ namespace curso_api_part1.Controllers
 
                 return Ok(produto);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Ocorreu um erro ao tratar a sua solicitação");
             }
         }
 
-        [HttpGet("id:int", Name="get")]
-        public async Task<IActionResult>Get(int? id)
+        [HttpGet("primeiro")]
+        public async Task<IActionResult> GetFirst()
         {
             try
             {
+                var primeiroProduto = await _produtoRepository.FirstProduct();
+
+                if (primeiroProduto is null)
+                {
+                    return NotFound("Produto não encontrado");
+                }
+
+                return Ok(primeiroProduto);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Ocorreu um erro ao tratar a sua solicitação");
+            }
+        }
+
+        //int:min(1) para colocar uma restrição na rota, evitando valores indesejaveis 
+        [HttpGet("{id:int:min(1)}/{teste}", Name="get")]
+        public async Task<IActionResult>Get(int? id,string teste)
+        {
+            try
+            {
+                string par = teste;
+
                 if(id == null)
                 {
                     return BadRequest("Informe um id");
@@ -132,6 +156,14 @@ namespace curso_api_part1.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Ocorreu um erro ao tratar a sua solicitação");
             }
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult>Produto(Produtos produto)
+        {
+             await _produtoRepository.PathUpLoad(produto);
+
+            return Ok();
         }
     }
 }

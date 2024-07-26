@@ -58,7 +58,7 @@ public class CategoriaController : Controller
         }
     }
 
-    [HttpGet("id:int")]
+    [HttpGet("{id}")]
     public async Task<IActionResult>GetById(int? id)
     {
         try

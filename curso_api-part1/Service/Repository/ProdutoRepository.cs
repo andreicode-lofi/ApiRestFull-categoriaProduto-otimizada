@@ -27,6 +27,20 @@ public class ProdutoRepository : IProdutoRepository
         return produtos;
     }
 
+    public async Task<Produtos> FirstProduct()
+    {
+        var primeiroProduto = _appDbContext.Produtos.FirstOrDefault();
+        if (primeiroProduto is null)
+        {
+            return null;
+        }
+
+        return primeiroProduto;
+
+    }
+
+
+
     public async Task<Produtos> GetById(int id)
     {
         var produto =  _appDbContext.Produtos.FirstOrDefault(p => p.ProdutoId == id);
@@ -68,6 +82,15 @@ public class ProdutoRepository : IProdutoRepository
 
         _appDbContext.Produtos.Remove(produto);
                     
+        await _appDbContext.SaveChangesAsync();
+
+        return produto;
+    }
+
+    public async Task<Produtos> PathUpLoad(Produtos produto)
+    {
+        _appDbContext.Entry(produto).State = EntityState.Modified;
+
         await _appDbContext.SaveChangesAsync();
 
         return produto;
