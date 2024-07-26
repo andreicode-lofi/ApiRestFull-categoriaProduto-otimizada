@@ -32,5 +32,8 @@
     <li>SQL Server</li>
 </ul>
 
+<h2>Validações Personalizadas</h2>
+<p>Foram implementadas validações personalizadas utilizando métodos da interface <code>IValidatableObject</code>. Essas validações garantem que os dados inseridos estejam corretos antes de serem salvos no banco de dados. As validações são executadas automaticamente durante a chamada dos métodos de criação e atualização das entidades.</p>
+
 </body>
 </html>
